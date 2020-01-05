@@ -1,0 +1,52 @@
+from rsf.proj import *
+# . . Generate a 2D matrix
+Flow()
+
+# . . Correct the axis sampling
+Flow()
+
+# . . Correct the axis sampling (again)
+Flow()
+
+# . . Example of using string concatenation
+xlabel='Depth'
+print xlabel
+Flow()
+
+# . . Generate velocity model
+Flow()
+
+# . . Create V of Z
+Flow()
+
+# . . Again substituting a float number
+vz=0.5
+Flow()
+
+# . . Plot result
+Plot()
+
+# . . Horizontal gradients too!
+Flow()
+
+# . . Plot of both gradients
+Plot()
+
+# . . Example of different plots
+Result()
+Result()
+Result()
+
+# . . Make Gaussian perturbation
+Flow()
+
+# . . Add two files together and plot
+Flow()
+Result()
+
+# . . A different way to do it
+Flow()
+Result()
+
+End()
+

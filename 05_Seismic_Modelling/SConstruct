@@ -1,0 +1,81 @@
+from rsf.proj import *
+import math
+
+# Define parameters
+par = {
+add your parameters here
+}
+add calculated parameters here
+velsegy = ’vel_z6.25m_x12.5m_exact.segy’
+densegy = ’density_z6.25m_x12.5m.segy’
+
+# Grab the data from the internet 
+#Fetch(velsegy+'.gz',dir='2004_BP_Vel_Benchmark',
+#server='ftp://software.seg.org',top='pub/datasets/2D')
+#Fetch(densegy+'.gz',dir='2004_BP_Vel_Benchmark',
+#server='ftp://software.seg.org',top='pub/datasets/2D')
+
+# Prepare the velocity and density files
+Flow(Output,input,commands)
+Flow(Output,input,commands)
+Flow(Output,input,commands)
+Flow(Output,input,commands)
+
+# Create a plot of the velocity model
+Result(Output,input,commands)
+
+# Subset the velocity model
+Flow(Output,input,commands)
+
+# Subset the density model
+Flow(Output,input,commands)
+
+# Plot a subset of the velocity model
+
+# Create the ricker wavelet
+
+# Put the source and receiver information together
+Flow('sx',None,commands %par)
+Flow('sz',None,commands %par)
+Flow('source','sx sz',commands)
+Flow('rx',None,commands %par)
+Flow('rz',None,commands %par)
+Flow('receivers','rx rz',commands )
+
+# Acoustic wavefield modelling
+Flow('Output1 Output2','input1 input2 input3 input4 input5',
+awefd2d
+den=
+rec=
+sou=
+vel=
+wfl=
+----other parameters go here----
+''' %par)
+
+# Plot the acoustic wavefield results
+
+# Elastic modelling
+
+# Create C11
+
+# Create a Vs model assuming a Poisson solid
+par['sqrt3']=math.sqrt(3.0)
+
+# Do the elastic modelling
+Flow('Output1 Output2','input1 input2 input3 input4 input5',
+'''
+ewefd2d
+den=
+rec=
+sou=
+ccc=
+wfl=
+----other parameters go here----
+''' %par)
+
+# Separate components
+
+# Plot components of the Elastic wavefield
+
+End()

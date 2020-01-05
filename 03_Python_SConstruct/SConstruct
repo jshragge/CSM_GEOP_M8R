@@ -1,0 +1,32 @@
+
+from rsf.proj import *
+import sys
+
+# This is a comment
+
+# Fetch a shot gather from the default Madagascar data server 
+Fetch('wz.35.H','wz')
+
+# Convert the shot gather to native format and window it
+Flow('shot_gather','wz.35.H','dd form=native | window n1=400 j1=2 | smooth rect1=3')
+
+# Plot the data
+Result('shot_gather','pow pow1=2 | grey')
+
+# Example flows from , note that sf is missing from program calls, this Flow generates "spikes.rsf"
+Flow("spikes", None,'''spike nsp=3 n1=1000 k1=200,600,800 mag=1,-0.5,0.5''')
+
+# sprayed.rsf is now the target of or causally related to the source spikes.rsf 
+Flow("sprayed","spikes",'''bandpass fhi=5 | spray axis=2 n=100''')
+
+# This takes sprayed.rsf and puts a finalised plot in the Fig directory, note the pipe from bandpass to grey
+Result("spray_plot","sprayed",'''bandpass fhi=5 | grey color=e title="Yes we can with SConstruct!" ''')
+
+# This puts a plot in the current directory
+Plot("spray_temp","sprayed",'''bandpass fhi=5 | grey color=e title="Yes we can with SConstruct!" ''')
+
+# You can only print to standard error in SConstructs and Madagascar programs. Standard output and input is reserved for IO.
+print >> sys.stderr, "Python code in the SConstruct is executed before Flows"
+
+End()
+

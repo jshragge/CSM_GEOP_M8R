@@ -1,0 +1,53 @@
+from rsf.proj import *
+# . . Generate a 2D matrix
+Flow('spike',None,'''
+	spike n1=200 n2=200 o1=0 o2=0 d1=0.5 d2=0.5 
+	label1=Depth unit1=km label2=Time unit2=s''')
+
+# . . Correct the axis sampling
+Flow('newspike','spike','put d1=0.005 d2=0.005')
+
+# . . Correct the axis sampling (again)
+Flow('newspike2','spike','put d1=0.005 | put d2=0.005')
+
+# . . Example of using string concatenation
+xlabel='Depth'
+print xlabel
+Flow('newspike3','newspike2','put label1='+xlabel)
+
+# . . Generate velocity model
+Flow('V0','newspike3','math output="2" ')
+
+# . . Create V of Z
+Flow('VZ','V0','math output="input+0.5*x1" ')
+
+# . . Again substituting a float number
+vz=0.5
+Flow('VZ2','V0','math output="input+%g*x1" '%vz)
+
+# . . Plot result
+Plot('VZ','VZ','grey color=j mean=y scalebar=y pclip=100 title="V(z)" ')
+
+# . . Horizontal gradients too!
+Flow('VXZ','V0','math output="input+0.5*x1+0.5*x2" ')
+
+# . . Plot of both gradients
+Plot('VXZ','VXZ','grey color=j mean=y scalebar=y pclip=100 title="V(x,z)" ')
+
+# . . Example of different plots
+Result('VEL','VZ VXZ','Movie')
+Result('VEL2','VZ VXZ','SideBySideAniso')
+Result('VEL3','VZ VXZ','OverUnderAniso')
+
+# . . Make Gaussian perturbation
+Flow('Gauss','VZ','math output="exp(-49*(x1-0.5)^2-25*(x2-0.5)^2)" ')
+
+# . . Add two files together and plot
+Flow('GaussVz','VZ Gauss','add ${SOURCES[1]}')
+Result('GaussVz','grey color=j mean=y pclip=100 scalebar=y')
+
+# . . A different way to do it
+Flow('GaussVz2','VZ Gauss','math gauss=${SOURCES[1]} output="input+gauss" ')
+Result('GaussVz2','grey color=j mean=y pclip=100 scalebar=y')
+End()
+
