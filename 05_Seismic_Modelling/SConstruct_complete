@@ -1,6 +1,14 @@
+## OLD Regular way to do thi
 #from rsf.proj import *
+
+## Import the cluster extensions
 from rsf.mycluster import *
-Cluster(name='m8r_ws',email='username@mines.edu',time=60,ppn=24,nodetype='geop')import math
+
+## Define cluster commands
+Cluster(name='m8r_ws',email='username@mines.edu',time=60,ppn=24,nodetype='geop')
+
+## Import python module
+import math
 
 # Define parameters
 par = {
@@ -57,14 +65,14 @@ Flow('receivers','rx rz','cat axis=2 ${SOURCES[1]} | transp')
 
 # Acoustic wavefield modelling
 Flow('arecfield awavefield','acousticwavelet density receivers source velocity','''
-awefd2d
-den=${SOURCES[1]}
-rec=${SOURCES[2]}
-sou=${SOURCES[3]}
-vel=${SOURCES[4]}
-wfl=${TARGETS[1]}
-verb=y dabc=y snap=y jsnap=%(jsnap)d jdata=%(jdata)d free=y
-''' %par)
+	awefd2d
+	den=${SOURCES[1]}
+	rec=${SOURCES[2]}
+	sou=${SOURCES[3]}
+	vel=${SOURCES[4]}
+	wfl=${TARGETS[1]}
+	verb=y dabc=y snap=y jsnap=%(jsnap)d jdata=%(jdata)d free=y
+	''' %par)
 
 # Plot the acoustic wavefield results
 Result("acoustic_shot_gather","arecfield",'transp plane=12 | grey mean=y gainpanel=a title="Acoustic reciever data"')
@@ -87,16 +95,16 @@ Flow("ccc","C11 C33 C55 C13",'cat axis=3 ${SOURCES[1:4]}')
 
 # Do the elastic modelling
 Flow('erecfield ewavefield','elasticwavelet density receivers source ccc',
-'''
-ewefd2d
-den=${SOURCES[1]}
-rec=${SOURCES[2]}
-sou=${SOURCES[3]}
-ccc=${SOURCES[4]}
-wfl=${TARGETS[1]}
-dabc=y snap=y verb=y jsnap=%(jsnap)d jdata=%(jdata)d
-ssou=y nb=20 nbell=11
-''' %par)
+	'''
+	ewefd2d
+	den=${SOURCES[1]}
+	rec=${SOURCES[2]}
+	sou=${SOURCES[3]}
+	ccc=${SOURCES[4]}
+	wfl=${TARGETS[1]}
+	dabc=y snap=y verb=y jsnap=%(jsnap)d jdata=%(jdata)d
+	ssou=y nb=20 nbell=11
+	''' %par)
 
 # Separate components
 Flow('ewfldZ','ewavefield','window n3=1 f3=0 min2=%(minx)g max2=%(maxx)g max1=%(maxz)g min1=%(minz)g' % par)

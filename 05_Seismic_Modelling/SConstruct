@@ -1,10 +1,20 @@
-from rsf.proj import *
+## OLD Regular way to do thi
+#from rsf.proj import *
+
+## Import the cluster extensions
+from rsf.mycluster import *
+
+## Define cluster commands
+Cluster(name='m8r_ws',email='username@mines.edu',time=60,ppn=24,nodetype='geop')
+
+## Import python module
 import math
 
 # Define parameters
 par = {
-add your parameters here
+#add your parameters here
 }
+
 add calculated parameters here
 velsegy = ’vel_z6.25m_x12.5m_exact.segy’
 densegy = ’density_z6.25m_x12.5m.segy’
@@ -43,7 +53,7 @@ Flow('rz',None,commands %par)
 Flow('receivers','rx rz',commands )
 
 # Acoustic wavefield modelling
-Flow('Output1 Output2','input1 input2 input3 input4 input5',
+Flow('Output1 Output2','input1 input2 input3 input4 input5','''
 awefd2d
 den=
 rec=
@@ -63,7 +73,7 @@ wfl=
 par['sqrt3']=math.sqrt(3.0)
 
 # Do the elastic modelling
-Flow('Output1 Output2','input1 input2 input3 input4 input5',
+Flow('Output1 Output2','input1 input2 input3 input4 input5','''
 '''
 ewefd2d
 den=
